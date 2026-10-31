@@ -54,6 +54,24 @@ body {
   outline: none;
 }
 
+.movement-hint {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 3;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 0.45rem;
+  background: var(--glass-bg);
+  color: var(--text-muted);
+  font: 0.75rem var(--font-mono);
+  pointer-events: none;
+}
+
+.movement-hint strong {
+  color: var(--cyan);
+}
+
 .hidden {
   display: none !important;
 }

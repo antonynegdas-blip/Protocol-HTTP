@@ -45,15 +45,15 @@ export class ControlsUI {
   bindEvents() {
     this.btnPrev.addEventListener('click', () => {
       if (this.currentIndex > 0) {
-        this.selectStep(this.currentIndex - 1);
+        this.selectStep(this.currentIndex - 1, false);
       }
     });
 
     this.btnNext.addEventListener('click', () => {
       if (this.currentIndex < this.steps.length - 1) {
-        this.selectStep(this.currentIndex + 1);
+        this.selectStep(this.currentIndex + 1, false);
       } else {
-        this.selectStep(0);
+        this.selectStep(0, false);
       }
     });
 
@@ -106,9 +106,9 @@ export class ControlsUI {
     this.btnHudToggle.textContent = this.hudCompact ? '▴ Mostrar Legenda' : '▾ Legenda';
   }
 
-  selectStep(index) {
+  selectStep(index, flyCamera = true) {
     this.currentIndex = index;
-    this.animator.goToStep(index, true);
+    this.animator.goToStep(index, flyCamera);
     this.syncUI(index);
   }
 

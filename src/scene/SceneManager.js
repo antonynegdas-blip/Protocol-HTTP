@@ -7,6 +7,8 @@ export class SceneManager {
     this.container = container;
     this.clock = new THREE.Clock();
     this.updateCallbacks = [];
+    this.moveKeys = new Set();
+    this.movementSpeed = 8;
 
     // Transição suave de câmera entre passos
     this.camAnim = {
@@ -28,6 +30,12 @@ export class SceneManager {
 
     this.onResize = this.onResize.bind(this);
     window.addEventListener('resize', this.onResize);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.clearMoveKeys = this.clearMoveKeys.bind(this);
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+    window.addEventListener('blur', this.clearMoveKeys);
 
     this.animate = this.animate.bind(this);
     requestAnimationFrame(this.animate);
@@ -78,6 +86,48 @@ export class SceneManager {
     this.controls.addEventListener('start', () => {
       this.camAnim.active = false;
     });
+  }
+
+  onKeyDown(event) {
+    if (event.target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
+
+    const key = event.key.toLowerCase();
+    if (!['w', 'a', 's', 'd'].includes(key)) return;
+
+    event.preventDefault();
+    this.moveKeys.add(key);
+    this.camAnim.active = false;
+  }
+
+  onKeyUp(event) {
+    this.moveKeys.delete(event.key.toLowerCase());
+  }
+
+  clearMoveKeys() {
+    this.moveKeys.clear();
+  }
+
+  updateMovement(dt) {
+    if (this.moveKeys.size === 0) return;
+
+    const forward = new THREE.Vector3();
+    this.camera.getWorldDirection(forward);
+    forward.y = 0;
+    if (forward.lengthSq() === 0) return;
+    forward.normalize();
+
+    const right = new THREE.Vector3(-forward.z, 0, forward.x);
+    const direction = new THREE.Vector3();
+    if (this.moveKeys.has('w')) direction.add(forward);
+    if (this.moveKeys.has('s')) direction.sub(forward);
+    if (this.moveKeys.has('d')) direction.add(right);
+    if (this.moveKeys.has('a')) direction.sub(right);
+    if (direction.lengthSq() === 0) return;
+
+    direction.normalize().multiplyScalar(this.movementSpeed * dt);
+
+    this.camera.position.add(direction);
+    this.controls.target.add(direction);
   }
 
   initLighting() {
@@ -209,6 +259,8 @@ export class SceneManager {
         this.camAnim.active = false;
       }
     }
+
+    this.updateMovement(dt);
 
     if (this.starField) {
       this.starField.rotation.y = elapsed * 0.015;
