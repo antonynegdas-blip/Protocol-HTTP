@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocolo HTTP em 3D — Passo a Passo</title>
+  <link rel="stylesheet" href="/src/styles/base.css" />
+  <link rel="stylesheet" href="/src/styles/hud.css" />
+  <link rel="stylesheet" href="/src/styles/labels3d.css" />
+</head>
+<body>
+  <!-- Palco 3D em Tela Cheia -->
+  <div id="scene-container" aria-label="Visualização 3D Interativa do Protocolo HTTP"></div>
+
+  <!-- Controles rápidos discretos no canto superior -->
+  <div class="top-tools">
+    <button id="btn-replay" class="tool-btn" title="Repetir animação deste passo (R)">
+      ↻ Repetir
+    </button>
+    <button id="btn-camera" class="tool-btn" title="Centralizar câmera 3D (C)">
+      ⌖ Câmera
+    </button>
+    <button id="btn-labels" class="tool-btn active" title="Mostrar ou ocultar rótulos 3D (L)">
+      ◈ Rótulos 3D
+    </button>
+    <button id="btn-hud-toggle" class="tool-btn" title="Expandir ou recolher legenda (H)">
+      ▾ Legenda
+    </button>
+  </div>
+
+  <!-- Painel de controle Passo a Passo flutuante na base -->
+  <footer id="step-dock" class="step-dock">
+    <div id="step-info" class="step-info">
+      <div class="step-meta">
+        <span id="step-badge" class="step-badge">PASSO 01 / 12</span>
+        <span id="step-tag" class="step-tag">Camada de Aplicação</span>
+      </div>
+      <h1 id="step-title" class="step-title">Arquitetura Cliente-Servidor</h1>
+      <p id="step-caption" class="step-caption"></p>
+
+      <!-- Sub-botões interativos 3D opcionais em passos específicos (ex: Verbos HTTP, Status Codes) -->
+      <div id="step-subactions" class="step-subactions hidden"></div>
+    </div>
+
+    <div class="step-controls-row">
+      <button id="btn-prev" class="nav-btn nav-prev" disabled>
+        ← Passo Anterior
+      </button>
+
+      <div id="step-dots" class="step-dots" role="tablist" aria-label="Etapas do funcionamento HTTP"></div>
+
+      <button id="btn-next" class="nav-btn nav-next">
+        Próximo Passo →
+      </button>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

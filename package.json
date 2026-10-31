@@ -1,0 +1,21 @@
+{
+  "name": "http-3d-passo-a-passo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Visualização 3D interativa passo a passo do funcionamento do protocolo HTTP com Vite e Three.js",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "vite": "^8.2.4"
+  }
+}
